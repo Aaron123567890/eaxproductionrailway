@@ -26,7 +26,7 @@ class Employee(models.Model):
     hire_date = models.DateField(auto_now_add=True)
     allowed_leave = models.IntegerField(default=10, blank=True, null=True)
     taken_leave = models.IntegerField(default=0, blank=True, null=True)
-    photo = models.ImageField(upload_to='profile/')
+    photo = models.ImageField(upload_to='profile/',blank=True, null=True)
 
     def __str__(self):
         return str(self.user)
