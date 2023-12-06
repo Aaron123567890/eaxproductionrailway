@@ -57,7 +57,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-CSRF_TRUSTED_ORIGINS = ['https://eaxleavemanagement.up.railway.app/']
+CSRF_TRUSTED_ORIGINS = ['https://eaxleavemanagement.up.railway.app']
 
 ROOT_URLCONF = 'eax_employee_management.urls'
 
