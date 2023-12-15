@@ -57,7 +57,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-CSRF_TRUSTED_ORIGINS = ['https://eaxleavemanagement.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://eaxlms.up.railway.app']
 
 ROOT_URLCONF = 'eax_employee_management.urls'
 
@@ -157,12 +157,6 @@ STORAGES = {
     },
 }
 
-# STORAGES = {
-#     # ...
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -179,4 +173,13 @@ JAZZMIN_SETTINGS = {
     "login_logo": "img/EAX.jpg",
     "welcome_sign": "Welcome to EAX",
     "copyright": "EAX Ltd",
+
+    "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home",  "url": "home", "permissions": ["auth.view_user"]},
+
+        # external url that opens in a new window (Permissions can be added)
+        
+    ],
 }
