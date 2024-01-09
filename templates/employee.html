@@ -1,24 +1,48 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<div class="container-cards">
-  <div class="container-card">
-    <h2>Employee List</h2>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Position</th>
-        <th>Phone Number</th>
-      </tr>
-      {% for employee in employees %}
-      <tr>
-        <td>{{employee.user.username}}</td>
-        <td>{{employee.position}}</td>
-        <td>{{employee.phone_number}}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
+<!-- Navbar End -->
+<!-- Table Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-white rounded h-100 p-4">
+                <h6 class="mb-4">Employee List</h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Position</th>
+                                <th scope="col">Phone Number</th>
+                                <th scope="col">Country</th>
+                                <th scope="col">ZIP</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for employee in employees %}
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>{{employee.user.username}}</td>
+                                <td>{{employee.position}}</td>
+                                <td>{{employee.phone_number}}</td>
+                                <td>USA</td>
+                                <td>123</td>
+                                <td>Member</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- Table End -->
+
+
+<!-- Footer Start -->
 {% endblock main %}
-         
+          

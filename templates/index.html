@@ -1,115 +1,120 @@
 {% extends 'base.html' %}
 {% block main %}
-
-<div class="cards">
-    <div class="card">
-        <div class="card-content">
-            <div class="number">{{card1_value}}</div>
-            <div class="card-name">{{card1_text}}</div>
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-6 col-xl-4">
+            <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">{{card1_text}}</p>
+                    <h6 class="mb-0 text-muted">{{card1_value}}</h6>
+                </div>
+            </div>
         </div>
-        <div class="icon-box">
-            <i class="fas fa-users"></i>
+        <div class="col-sm-6 col-xl-4">
+            <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">{{card2_text}} {% for leave in total_leave_type%}{{leave.leave_date}}{% endfor %}</p>
+                    <h6 class="mb-0 text-muted">{{card2_value}}</h6>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="card">
-        <div class="card-content">
-            <div class="number">{{card2_value}}</div>
-            <div class="card-name"> {{card2_text}} {% for leave in total_leave_type%}{{leave.leave_date}}{% endfor %}</div>
-        </div>
-        <div class="icon-box">
-            <i class="fa fa-calendar"></i>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-content">
-            <div class="number">{{card3_value}}</div>
-            <div class="card-name">{{card3_text}}</div>
-        </div>
-        <div class="icon-box">
-            <i class="fa fa-sitemap"></i>
-        </div>
-    </div>
-
-</div>
-
-<div class="charts">
-    <div class="chart">
-        <h2>Leaves (past 30 days)</h2>
-        <div>
-            <canvas id="lineChart"></canvas>
-        </div>
-    </div>
-    <div class="chart doughnut-chart">
-        <h2>Leaves by categories this month</h2>
-        <div>
-            <canvas id="doughnut"></canvas>
+        <div class="col-sm-6 col-xl-4">
+            <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-area fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">{{card3_text}}</p>
+                    <h6 class="mb-0 text-muted">{{card3_value}}</h6>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<!-- Sale & Revenue End -->
 
-<!-- javascripts -->
-<script>
-    var ctx = document.getElementById('lineChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [{% for leave_day in total_month_leave %}'{{leave_day.leave_date.day}}', {% endfor %}],
-        datasets: [{
-            label: 'Leaving in Months',
-            data: [{% for leave_day in total_month_leave %}'{{leave_day.leave_date__count}}', {% endfor %}],
-            backgroundColor: [
-                'rgba(85,85,85, 1)'
 
-            ],
-            borderColor: 'rgb(41, 155, 99)',
-
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true
-    }
-});
-
-// <!-- chart 2 -->
-
-var ctx2 = document.getElementById('doughnut').getContext('2d');
-var myChart2 = new Chart(ctx2, {
-    type: 'doughnut',
-    data: {
-        labels: [{% for leave_type in total_leave_type %}'{{leave_type.leave_type}}', {% endfor %}],
-
-        datasets: [{
-            label: 'Employees',
-            data: [{% for leave_type in total_leave_type %}'{{leave_type.leave_type__count}}', {% endfor %}],
-            backgroundColor: [
-                'rgba(41, 155, 99, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(120, 46, 139,1)',
-                'rgba(100, 86, 109,1)',
-                'rgba(10, 146, 130,1)',
-                'rgba(20, 60, 39,1)'
-
-            ],
-            borderColor: [
-                'rgba(41, 155, 99, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(120, 46, 139,1)'
-
-            ],
-            borderWidth: 1
-        }]
-
-    },
-    options: {
-        responsive: true
-    }
-});
-</script>
-<!-- end javascripts -->
-
+<!-- Sales Chart Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-white rounded h-100 p-4">
+                <h6 class="mb-4">Single Line Chart</h6>
+                <canvas id="line-chart"></canvas>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-white rounded h-100 p-4">
+                <h6 class="mb-4">Doughnut Chart</h6>
+                <canvas id="doughnut-chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock main %}
-        
+<!-- Sales Chart End -->
+{% block script %}
+<script>
+    (function ($) {
+    "use strict";
+
+
+    // Chart Global Color
+    Chart.defaults.color = "#6C7293";
+    Chart.defaults.borderColor = "#000000";
+
+
+    
+
+    // Single Line Chart
+    var ctx3 = $("#line-chart").get(0).getContext("2d");
+    var myChart3 = new Chart(ctx3, {
+        type: "line",
+        data: {
+            labels: [{% for leave_day in total_month_leave %}'{{leave_day.leave_date.day}}', {% endfor %}],
+            datasets: [{
+                label: "Leaving in Months",
+                fill: false,
+                backgroundColor: "rgba(235, 22, 22, .7)",
+                data: [{% for leave_day in total_month_leave %}'{{leave_day.leave_date__count}}', {% endfor %}]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+
+   
+
+    // Doughnut Chart
+    var ctx6 = $("#doughnut-chart").get(0).getContext("2d");
+    var myChart6 = new Chart(ctx6, {
+        type: "doughnut",
+        data: {
+            labels: [{% for leave_type in total_leave_type %}'{{leave_type.leave_type}}', {% endfor %}],
+            datasets: [{
+                backgroundColor: [
+                    "rgba(235, 22, 22, .7)",
+                    "rgba(245, 40, 145, 0.8)",
+                    "rgba(143, 187, 139, 0.8)",
+                    "rgba(143, 0, 255, 0.8)",
+                    "rgba(0, 0, 255, 0.8)",
+                    "rgba(0, 255, 255, 0.8)"
+                ],
+                data: [{% for leave_type in total_leave_type %}'{{leave_type.leave_type__count}}', {% endfor %}]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+
+
+    })(jQuery);
+</script>
+
+{% endblock script %}
 
